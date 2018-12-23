@@ -3,7 +3,7 @@ library(xts)
 library(mgcv)
 
 rm (list=objects())
-setwd("C:/Users/Sofian Chaybouti/Desktop/sta202/projetFinal")
+setwd("~/GitHub/ProjetR")
       
 
 #lecture du fichier 
@@ -47,6 +47,10 @@ boxplot(dataCirculation$Freq,ylab="Nombre d'accidents par jour")
 
 hist(dataCirculation$Freq,main="Histogramme",xlab="Nombre d'accidents par jour",ylab="Frequence")
 
+#Moyenne par an 
+annees <- as.factor (format(dataCirculation$Date, "%Y"))
+moyenne_an <- tapply(dataCirculation$Freq,annees,mean)
+plot(moyenne_an,type='b',pch=20)
 
 # Moyenne par mois
 mois <- as.factor(format(dataCirculation$Date,"%m"))
@@ -68,5 +72,4 @@ moyenne_jour_mois = tapply(dataCirculation$Freq,mois:jour,mean)
 moyenne_jour_mois = matrix(moyenne_jour_mois,nrow=12,ncol=7,byrow=T)
 matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et par jour", xlab="Jour de la semaine",ylab="Nombre d'accidents par jour")
 
-#Moyenne par an 
-annees <- as.factor (format(dataCirculation$Date, "%Y"))
+
