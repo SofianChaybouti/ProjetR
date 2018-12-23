@@ -72,4 +72,4 @@ moyenne_jour_mois = tapply(dataCirculation$Freq,mois:jour,mean)
 moyenne_jour_mois = matrix(moyenne_jour_mois,nrow=12,ncol=7,byrow=T)
 matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et par jour", xlab="Jour de la semaine",ylab="Nombre d'accidents par jour")
 
-
+#Voici un test 
