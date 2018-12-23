@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1790961231",
+    "hash" : "3116790960",
     "id" : "AC97DE3",
-    "lastKnownWriteTime" : 1545600328,
-    "last_content_update" : 1545600327780,
+    "lastKnownWriteTime" : 1545602134,
+    "last_content_update" : 1545602134,
     "path" : "~/GitHub/ProjetR/scriptProjet.R",
     "project_path" : "scriptProjet.R",
     "properties" : {
-        "cursorPosition" : "74,15",
-        "scrollLine" : "60"
+        "cursorPosition" : "73,0",
+        "scrollLine" : "59"
     },
     "relative_order" : 1,
     "source_on_save" : false,
