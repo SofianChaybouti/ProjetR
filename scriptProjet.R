@@ -3,7 +3,7 @@ library(xts)
 library(mgcv)
 
 rm (list=objects())
-setwd("C:/Users/Sofian Chaybouti/Desktop/sta202/projetFinal"
+setwd("C:/Users/Sofian Chaybouti/Desktop/sta202/projetFinal")
       
 
 #lecture du fichier 
@@ -69,3 +69,4 @@ moyenne_jour_mois = matrix(moyenne_jour_mois,nrow=12,ncol=7,byrow=T)
 matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et par jour", xlab="Jour de la semaine",ylab="Nombre d'accidents par jour")
 
 #Moyenne par an 
+annees <- as.factor (format(dataCirculation$Date, "%Y"))
