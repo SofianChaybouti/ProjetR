@@ -75,7 +75,8 @@ matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et
 n<- length(Date)
 t<-c(1:n)
 par(mfrow=c(1,1))
-# Par r?gression lin?aire
+
+# Par regression lineaire
 reg<-lm(Freq~t)
 tend.lm <- reg$fitted
 plot(Date,Freq,type='l',
@@ -83,10 +84,30 @@ plot(Date,Freq,type='l',
      xlab="",ylab="Nombre d'accidents")
 lines(Date,tend.lm,col='red')
 
-# On voit que la tendance reste constante au cours d'annÃ©e en annÃ©e
+# On voit que la tendance reste constante au cours d'annee en annee
 #Par moyenne mobile 
 
-mb<- filter(dataCirculation,filter=array(1/100,dim=100),method=c('convolution'),sides=2,circular='T')
+mb<- filter(dataCirculation$Freq,filter=array(1/100,dim=100),method=c('convolution'),sides=2,circular=T)
 mb<- xts(mb,order.by=Date)
 plot(dataCirculation,type='l')
-lines(mb,col='red')
+lines(Date, mb, col = 'red')
+
+#Par noyaux
+noyau <-ksmooth(t, dataCirculation$Freq , kernel = c("normal"),bandwidth = 100)
+par = (mfrow=c(1, 2))
+plot(dataCirculation$Date, dataCirculation$Freq, type = "l", xlab = "", ylab ="nbe d'accidents", col = "blue")
+lines(dataCirculation$Date, noyau$y, type = "l", xlab = "", ylab = "tendance", col = "orangered2")
+
+#Par polynomes locaux
+lo <- loess (Freq ~ t, data = dataCirculation, degree = 2, span = 0.7)
+plot(dataCirculation$Date, dataCirculation$Freq, type = "l", xlab = "", ylab = "nbr d'accidents", col = "blue")
+lines (dataCirculation$Date, lo$fitted, col = "orangered2", lwd = 2)
+
+#Par projection sur fonctions splines polynomiales par morceaux
+
+g <-gam(Freq ~ s(t, k = 10), data = dataCirculation)
+plot(dataCirculation$Date, dataCirculation$Freq, type = "l", xlab = "", ylab ="nbe d'accidents", col = "blue", lwd = 2)
+lines (dataCirculation$Date, g$fitted, col = "red", lwd = 2)
+
+#A voir : comment régler tous les paramètres
+
