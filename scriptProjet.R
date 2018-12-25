@@ -20,9 +20,13 @@ summary(dataCirculation)
 head(dataCirculation)
 tail(dataCirculation)
 str(dataCirculation)
+#On travaille sur 3ans
 
 Date = as.POSIXct(strptime(dataCirculation$date, "%Y-%m-%d"))
 head(Date)
+Date = Date [which(format(Date,"%Y") == 2013 | format(Date, "%Y") == 2014 | format(Date,"%Y") == 2015)]
+head(Date)
+tail(Date)
 # On recupere le nombre d'accidents par jour
 
 dataCirculation <- as.data.frame(table(Date))
@@ -80,7 +84,7 @@ par(mfrow=c(1,1))
 reg<-lm(Freq~t)
 tend.lm <- reg$fitted
 plot(Date,Freq,type='l',
-     main="Par régression linéaire",
+     main="Par regression lineaire",
      xlab="",ylab="Nombre d'accidents")
 lines(Date,tend.lm,col='red')
 
