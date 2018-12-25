@@ -71,7 +71,6 @@ moyenne_jour_mois = tapply(dataCirculation$Freq,mois:jour,mean)
 moyenne_jour_mois = matrix(moyenne_jour_mois,nrow=12,ncol=7,byrow=T)
 matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et par jour", xlab="Jour de la semaine",ylab="Nombre d'accidents par jour")
 
-<<<<<<< HEAD
 ####### Estimation de la tendance ##########
 n<- length(Date)
 t<-c(1:n)
@@ -83,7 +82,11 @@ plot(Date,Freq,type='l',
      main="Par régression linéaire",
      xlab="",ylab="Nombre d'accidents")
 lines(Date,tend.lm,col='red')
-#En effet vraiment pas ouf 
-=======
 
->>>>>>> 58e0c704fdab50375b80fb03e2a4997f7793bc52
+# On voit que la tendance reste constante au cours d'année en année
+#Par moyenne mobile 
+
+mb<- filter(dataCirculation,filter=array(1/100,dim=100),method=c('convolution'),sides=2,circular='T')
+mb<- xts(mb,order.by=Date)
+plot(dataCirculation,type='l')
+lines(mb,col='red')

@@ -71,7 +71,6 @@ moyenne_jour_mois = tapply(dataCirculation$Freq,mois:jour,mean)
 moyenne_jour_mois = matrix(moyenne_jour_mois,nrow=12,ncol=7,byrow=T)
 matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et par jour", xlab="Jour de la semaine",ylab="Nombre d'accidents par jour")
 
-<<<<<<< HEAD
 ####### Estimation de la tendance ##########
 n<- length(Date)
 t<-c(1:n)
@@ -83,7 +82,34 @@ plot(Date,Freq,type='l',
      main="Par régression linéaire",
      xlab="",ylab="Nombre d'accidents")
 lines(Date,tend.lm,col='red')
-#En effet vraiment pas ouf 
-=======
 
->>>>>>> 58e0c704fdab50375b80fb03e2a4997f7793bc52
+# On voit que la tendance reste constante au cours d'année en année
+#Par moyenne mobile 
+
+mb<- filter(dataCirculation,filter=array(1/100,dim=100),method=c('convolution'),sides=2,circular='T')
+mb<- xts(mb,order.by=Date)
+plot(dataCirculation,type='l')
+lines(mb,col='pink')
+#Des bonds mensuels ? Janvier ?? 
+
+# Par régression noyau gaussien
+h=100 #comment choisir h???
+x<-seq(1,max(t),length=n)
+noyau <- function(x){dnorm(x-t,0,sd=sqrt(h/2))/sum(dnorm(x-t,0,sd=sqrt(h/2)))}
+W<-matrix(unlist(lapply(x,noyau)),ncol=n,nrow=n,byrow=F)
+plot(W[,1])  #A quoi ?a sert d'afficher ?a ? A quoi correspond W ?
+tend.kernel<-colSums(as.numeric(Freq)*W)
+tend.kernel<-xts(tend.kernel,order.by=Date)
+plot(Date,Freq,type='l',main="Par noyau gaussien",
+     xlab="",ylab="Nombre d'accidents ")
+lines(Date,tend.kernel,col='pink')
+
+#celle là est sur le poly du cours 
+noyau <- ksmooth(Date,Freq,kernel=c("normal"),bandwidth = 1000)
+tend.kernel <- noyau$y
+plot(Date,Freq,type='l',
+     main="Par régression à noyau gaussien",
+     xlab="",ylab="Nombre d'accidents")
+lines(Date,tend.kernel,col='red')
+#Mais elle donne des couilles 
+
