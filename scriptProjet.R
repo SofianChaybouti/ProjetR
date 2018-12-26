@@ -120,7 +120,7 @@ lines (dataCirculation$Date, g$fitted, col = "red", lwd = 2)
 #A voir : comment régler tous les paramètres
 
 #Choix de l'estimation à prendre pour la suite 
-est<-tend.lm
+tend<-tend.lm
 
 #Notre modèle est additif!
 
@@ -134,4 +134,39 @@ saison.mb<-filter(data_st, filter=array(1/30,dim=30), method = c("convolution"),
 saison.mb<-xts(saison.mb,order.by=Date)
 #plot(Date,data_st,type='l', main="Par moyenne mobile",xlab="",ylab="Nombre d'accidents")
 plot(Date,saison.mb,type='l',col='red')
-#Pas mal du tout on voit bien la périodicité d'un ans 
+#Pas mal du tout on voit bien la périodicité d'un ans
+
+# Par régression à noyau gaussien
+h=30#comment choisir h??? quand il est tout petit c'est parfait...
+x<-seq(1,max(t),length=n)
+W<-matrix(unlist(lapply(x,function(x){dnorm(x-t,0,sd=sqrt(h/2))/sum(dnorm(x-t,0,sd=sqrt(h/2)))})),ncol=n,nrow=n,byrow=F)
+saison.kernel<-colSums(as.numeric(data_st)*W)
+saison.kernel<-xts(saison.kernel,order.by=Date)
+#plot(Date,data_st,type='l',main="Par régression à noyau gaussien",xlab="",ylab="Nombre de tapages")
+plot(Date,saison.kernel,type="l",col='red')
+
+
+# Par régression sur série de Fourier
+w=2*pi/30 
+fourier<-cbind(cos(w*t), sin(w*t))
+K<-20
+for(i in c(2:K))
+{
+  fourier<-cbind(fourier,cos(i*w*t), sin(i*w*t))
+}
+#matplot(fourier,type='l')
+dim(fourier)
+reg<-lm(data_st~fourier[,1:2])
+saison.lm<-xts(as.numeric(reg$fitted),order.by=Date)
+plot(Date,saison.lm,type='l',col='red')
+#MDR 
+
+# Estimation de la saisonnalité retenue
+saison=saison.kernel
+
+# Estimation tendance + saisonnalité 
+par(mfrow=c(1,1))
+plot(Date,Freq,type='l',main="Estimation de la tendance et de la saisonnalité",
+     xlab="",ylab="Nombre de tapages")
+lines(Date,tend+saison,col='red')
+
