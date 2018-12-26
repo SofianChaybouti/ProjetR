@@ -75,6 +75,10 @@ moyenne_jour_mois = tapply(dataCirculation$Freq,mois:jour,mean)
 moyenne_jour_mois = matrix(moyenne_jour_mois,nrow=12,ncol=7,byrow=T)
 matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et par jour", xlab="Jour de la semaine",ylab="Nombre d'accidents par jour")
 
+#par moi et par an 
+moyenne_mois_an = tapply(dataCirculation$Freq, annees:mois, mean)
+moyenne_mois_an = matrix(moyenne_mois_an, nrow = 3, ncol = 12, byrow = T)
+matplot(t(moyenne_mois_an), type = 'l', col = rainbow(3), main = "moyenne par moi et par an", xlab = "mois", ylab="nombre d'acccident par jour")
 ####### Estimation de la tendance ##########
 n<- length(Date)
 t<-c(1:n)
