@@ -119,4 +119,19 @@ lines (dataCirculation$Date, g$fitted, col = "red", lwd = 2)
 
 #A voir : comment régler tous les paramètres
 
+#Choix de l'estimation à prendre pour la suite 
+est<-tend.lm
 
+#Notre modèle est additif!
+
+#méthode de la moyenne mobile 
+data_st<- Freq-est
+par(mfrow=c(1,1))
+plot(Date,data_st,type='l',main="Données sans la tendance", xlab="",ylab="Nombre d'accidents")
+
+saison.mb<-filter(data_st, filter=array(1/30,dim=30), method = c("convolution"),
+                  sides = 2, circular = T)
+saison.mb<-xts(saison.mb,order.by=Date)
+#plot(Date,data_st,type='l', main="Par moyenne mobile",xlab="",ylab="Nombre d'accidents")
+plot(Date,saison.mb,type='l',col='red')
+#Pas mal du tout on voit bien la périodicité d'un ans 
