@@ -75,6 +75,10 @@ moyenne_jour_mois = tapply(dataCirculation$Freq,mois:jour,mean)
 moyenne_jour_mois = matrix(moyenne_jour_mois,nrow=12,ncol=7,byrow=T)
 matplot(t(moyenne_jour_mois),type='l',col=rainbow(12), main="Moyenne par mois et par jour", xlab="Jour de la semaine",ylab="Nombre d'accidents par jour")
 
+#par moi et par an 
+moyenne_mois_an = tapply(dataCirculation$Freq, annees:mois, mean)
+moyenne_mois_an = matrix(moyenne_mois_an, nrow = 3, ncol = 12, byrow = T)
+matplot(t(moyenne_mois_an), type = 'l', col = rainbow(3), main = "moyenne par moi et par an", xlab = "mois", ylab="nombre d'acccident par jour")
 ####### Estimation de la tendance ##########
 n<- length(Date)
 t<-c(1:n)
@@ -91,13 +95,13 @@ lines(Date,tend.lm,col='red')
 # On voit que la tendance reste constante au cours d'annee en annee
 #Par moyenne mobile 
 
-mb<- filter(dataCirculation$Freq,filter=array(1/100,dim=100),method=c('convolution'),sides=2,circular=T)
+mb<- filter(dataCirculation$Freq,filter=array(1/30,dim=30),method=c('convolution'),sides=2,circular=T)
 mb<- xts(mb,order.by=Date)
 plot(dataCirculation,type='l')
 lines(Date, mb, col = 'red')
 
 #Par noyaux
-noyau <-ksmooth(t, dataCirculation$Freq , kernel = c("normal"),bandwidth = 100)
+noyau <-ksmooth(t, dataCirculation$Freq , kernel = c("normal"),bandwidth = 30)
 par = (mfrow=c(1, 2))
 plot(dataCirculation$Date, dataCirculation$Freq, type = "l", xlab = "", ylab ="nbe d'accidents", col = "blue")
 lines(dataCirculation$Date, noyau$y, type = "l", xlab = "", ylab = "tendance", col = "orangered2")
