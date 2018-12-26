@@ -91,16 +91,16 @@ lines(Date,tend.lm,col='red')
 # On voit que la tendance reste constante au cours d'annee en annee
 #Par moyenne mobile 
 
-mb<- filter(dataCirculation$Freq,filter=array(1/100,dim=100),method=c('convolution'),sides=2,circular=T)
+mb<- filter(dataCirculation$Freq,filter=array(1/30,dim=30),method=c('convolution'),sides=2,circular=T)
 mb<- xts(mb,order.by=Date)
 plot(dataCirculation,type='l')
 lines(Date, mb, col = 'red')
 
 #Par noyaux
-noyau <-ksmooth(t, dataCirculation$Freq , kernel = c("normal"),bandwidth = 100)
+noyau <-ksmooth(t, dataCirculation$Freq , kernel = c("normal"),bandwidth = 30)
 par = (mfrow=c(1, 2))
 plot(dataCirculation$Date, dataCirculation$Freq, type = "l", xlab = "", ylab ="nbe d'accidents", col = "blue")
-lines(dataCirculation$Date, noyau$y, type = "l", xlab = "", ylab = "tendance", col = "orangered2")
+lines(dataCirculation$Date, noyau$y, type = "l", xlab = "", ylab = "tendance", col = "black")
 
 #Par polynomes locaux
 lo <- loess (Freq ~ t, data = dataCirculation, degree = 2, span = 0.7)
@@ -114,4 +114,5 @@ plot(dataCirculation$Date, dataCirculation$Freq, type = "l", xlab = "", ylab ="n
 lines (dataCirculation$Date, g$fitted, col = "red", lwd = 2)
 
 #A voir : comment régler tous les paramètres
+
 

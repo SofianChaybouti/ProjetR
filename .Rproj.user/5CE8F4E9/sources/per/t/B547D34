@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1545763590178.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "B547D34",
+    "lastKnownWriteTime" : 31244173393002613,
+    "last_content_update" : 1545763590178,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "3B432398",
+        "caption" : "accidents_corporels_de_la_circulation_routiere_1_",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=accidents_corporels_de_la_circulation_routiere_1_&cache_key=3B432398",
+        "displayedObservations" : 2863,
+        "environment" : "",
+        "object" : "accidents_corporels_de_la_circulation_routiere_1_",
+        "preview" : 0,
+        "totalObservations" : 2863,
+        "variables" : 1
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
